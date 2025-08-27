@@ -1,5 +1,8 @@
 // index.js
 import express from "express";
+import dotenv from "dotenv";
+
+dotenv.config();
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -14,25 +17,46 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 /* ---------- CORS ---------- */
 const allowedOrigins = [
-// "http://127.0.0.1:5500",
-"http://localhost:9086",
-"https://localhost:9086",
-"https://reports.voicemeetme.net:9086",
-"http://reports.voicemeetme.net:9086",
-"http://reports.voicemeetme.net",
-"https://reports.voicemeetme.net",
+  "http://localhost:3000",
+  "https://localhost:3000",
+  "http://localhost:4000",
+  "https://localhost:4000",
+  "http://10.5.50.245:9999",
+  "http://localhost:9999",
+  "http://10.5.51.50:9999",
+  "https://10.5.51.50:9999",
+  "http://172.20.10.3:9999",
+  "https://172.20.10.3:9999",
+  "http://10.5.48.100:9999",
+  "https://10.5.50.245:9999",
+  "https://localhost:9999",
+  "http://217.145.69.251:9999",
+  "https://217.145.69.251:9999",
+  "http://192.168.150.146:9999",
+  "https://192.168.150.146:9999",
+  "https://217.145.69.239:9999",
+  "http://217.145.69.239:9999",
+  "https://login.messgeblast.com",
+  "http://login.messgeblast.com",
+  "https://login.messgeblast.com:9999",
+  "http://login.messgeblast.com:9999",
+  "https://crm.voicemeetme.net",
+  "http://crm.voicemeetme.net",
+  "https://crm.voicemeetme.net:9999",
+  "http://crm.voicemeetme.net:9999",
 ];
 
 app.use(
-cors({
-origin: function (origin, callback) {
-if (!origin) return callback(null, true); // allow curl/mobile
-if (allowedOrigins.includes(origin)) return callback(null, true);
-callback(new Error("Not allowed by CORS"));
-},
-credentials: true,
-optionsSuccessStatus: 200,
-})
+  cors({
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true); // allow curl/mobile
+      if (allowedOrigins.includes(origin)) return callback(null, true);
+      console.warn(`[CORS] Blocked origin: ${origin}`);
+      callback(new Error("Not allowed by CORS"));
+    },
+    credentials: true,
+    optionsSuccessStatus: 200,
+  })
 );
 
 app.use(express.json());
